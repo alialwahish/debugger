@@ -1,0 +1,378 @@
+// Name: Ali Bayati 
+// Problem: Stack
+// Chapter # 7
+// Lab # 9
+
+#include<iostream>
+#include<stack>
+#include<string>
+#include<fstream>
+
+using namespace std;
+
+
+int main()
+{
+	string fName, text;
+	
+	stack<char> c;
+	stack<string> s;
+	stack<int> nuS ;
+	
+	int ch=1;
+	while (ch != 0)
+	{
+		cout << "Enter the file name you want to check :";
+		getline(cin, fName);
+		ifstream infile;
+		fName += ".cpp";
+		cout << fName << endl;
+		infile.open(fName);
+		int l = 0;
+		getline(infile, text);
+		while (infile)
+		{
+			
+			cout << text << endl;
+			l++;
+			for (int i = 0; i < text.size(); i++)
+			{
+				if (text[i] == '{' || text[i] == '(' || text[i] == '[')
+					c.push(text[i]);
+
+				else if (text[i] == '}' || text[i] == ')' || text[i] == ']')
+				{
+					if (c.empty())
+						c.push('*');
+					if (text[i] == '}'&&c.top() == '{')
+						c.pop();
+					else if (text[i] == ')'&&c.top() == '(')
+						c.pop();
+					else if (text[i] == ']'&&c.top() == '[')
+						c.pop();
+
+					else if (text[i] == '}'&&c.top() != '{')
+					{
+						s.push("Error ! Expected a '{' in line");
+						nuS.push(l);
+					}
+					else if (text[i] == ')'&&c.top() != '(')
+					{
+						s.push("Error ! Expected a '(' in line");
+						nuS.push(l);
+					}
+					else if (text[i] == ']'&&c.top() != '[')
+					{
+						s.push("Error ! Expected a '[' in line");
+						nuS.push(l);
+					}
+				}
+			}
+			getline(infile, text);
+
+		}
+
+
+		infile.close();
+		if (s.empty())
+			cout << ">>>Build succeeded<<<" << endl;
+		while (!(s.empty()))
+		{
+			cout << s.top() << ": " << nuS.top() << endl;
+			s.pop();
+			nuS.pop();
+		}
+		cout << "Enter 0 to exit :";
+		cin >> ch;
+		cin.ignore();
+		cout << endl << endl;
+	}
+		return 0;
+	
+}
+/*Output
+Enter the file name you want to check :input1
+input1.cpp
+#include <iostream>
+
+using namespace std;
+
+void main (void)
+{
+cout << "Hello World!" << endl;
+
+}
+>>>Build succeeded<<<
+Enter 0 to exit :1
+
+
+Enter the file name you want to check :input2
+input2.cpp
+#include <iostream>
+
+using namespace std;
+
+void main (void)
+cout << "Hello World!" << endl;
+
+}
+Error ! Expected a '{' in line: 8
+Enter 0 to exit :1
+
+
+Enter the file name you want to check :input3
+input3.cpp
+// Written by Louis Christakes
+// October 12, 2001
+// Chapter 5
+// Population
+
+#include <iostream.h>
+#include <iomanip.h>
+
+void main (void)
+{
+int organisms, days;
+float increase;
+
+cout << "Enter the starting number of organisms: ";
+cin >> organisms;
+
+//validate
+while (organisms < 2)
+{
+cout << "\nOrganisms must be greater than 1!" << endl;
+cout << "Please try again: ";
+cin >> organisms;
+}
+
+cout << "Enter the average daily population increases (as a %): ";
+cin >> increase;
+
+//validate
+while (increase < 0)
+{
+cout << "\nAverage daily population increase must be +!" << endl;
+cout << "Please try again: ";
+cin >> increase;
+}
+
+cout << "Enter the number of days to multiply: ";
+cin >> days;
+
+//validate
+while (days < 1)
+{
+cout << "\nNumber of days to multiply cannot be less than 1!" << endl;
+cout << "Please try again: ";
+cin >> days;
+}
+
+cout << "\n\n\nPopulation Chart" << endl;
+cout << "==========================" << endl;
+cout << "Day #\t\tPopulation" << endl;
+cout << "    1" << "\t\t" << setw(10) << organisms << endl;
+
+for (int i = 2; i <= days; i++)
+{
+organisms += int(organisms * increase);
+cout << setw(5) << i << "\t\t" << setw(10) << organisms << endl;
+
+}
+
+}
+>>>Build succeeded<<<
+Enter 0 to exit :1
+
+
+Enter the file name you want to check :input4
+input4.cpp
+// Written by Louis Christakes
+// October 12, 2001
+// Chapter 5
+// Population
+
+#include <iostream.h>
+#include <iomanip.h>
+
+void main (void)
+{
+int organisms, days;
+float increase;
+
+cout << "Enter the starting number of organisms: ";
+cin >> organisms;
+
+//validate
+while (organisms < 2}
+(
+cout << "\nOrganisms must be greater than 1!" << endl;
+cout << "Please try again: ";
+cin >> organisms;
+}
+
+cout << "Enter the average daily population increases (as a %): ";
+cin >> increase;
+
+//validate
+while (increase < 0)
+{
+cout << "\nAverage daily population increase must be +!" << endl;
+cout << "Please try again: ";
+cin >> increase;
+}
+
+cout << "Enter the number of days to multiply: ";
+cin >> days;
+
+//validate
+while (days < 1)
+{
+cout << "\nNumber of days to multiply cannot be less than 1!" << endl;
+cout << "Please try again: ";
+cin >> days;
+}
+
+cout << "\n\n\nPopulation Chart" << endl;
+cout << "==========================" << endl;
+cout << "Day #\t\tPopulation" << endl;
+cout << "    1" << "\t\t" << setw(10) << organisms << endl;
+
+for (int i = 2; i <= days; i++)
+{
+organisms += int(organisms * increase);
+cout << setw(5) << i << "\t\t" << setw(10) << organisms << endl;
+
+}
+
+}
+Error ! Expected a '{' in line: 59
+Error ! Expected a '{' in line: 23
+Error ! Expected a '{' in line: 18
+Enter 0 to exit :1
+
+
+Enter the file name you want to check :input5
+input5.cpp
+// Written by Louis Christakes
+// November 13, 2001
+// Chapter 10
+// 4. Average Number of Letters
+
+#include <iostream.h>
+#include <string.h>
+#include <iomanip.h>
+
+// Function Prototypes
+int numWords(char *);
+
+void main (void)
+{
+char line[80];
+int words, length;
+
+cout << "Enter a string: ";
+cin.getline(line,80);
+
+words = numWords(line);
+cout << "\nThere are " << words << " words in that sentence." << endl;
+
+cout.setf(ios::fixed | ios::showpoint);
+cout.precision(1);
+
+length = strlen(line);
+cout << "The average number of letters per word is ";
+cout << (length-words+1)/float(words) << endl;
+
+}
+
+/********************************************************
+*       Function:       numWords
+*
+*       Arguments:      char *sentence - text
+*
+*       Returns:        will return number of words in sentence 
+********************************************************
+int numWords(char *sentence)
+{
+	int words = 0, length;
+	length = strlen(sentence);
+	if (length != 0)
+		words++;
+
+	for (int i = 0; i < length; i++)
+	{
+		if (sentence[i] == ' ')
+			words++;
+	}
+	return words;
+}
+>> >Build succeeded << <
+	Enter 0 to exit : 1
+
+
+	Enter the file name you want to check : input6
+	input6.cpp
+	// Written by Louis Christakes
+	// November 13, 2001
+	// Chapter 10
+	// 4. Average Number of Letters
+
+#include <iostream.h>
+#include <string.h>
+#include <iomanip.h>
+
+	// Function Prototypes
+	int numWords(char *);
+
+void main(void)
+{
+	char line[80];
+	int words, length;
+
+	cout << "Enter a string: ";
+	cin.getline(line, 80);
+
+	words = numWords(line);
+	cout << "\nThere are " << words << " words in that sentence." << endl;
+
+	cout.setf(ios::fixed | ios::showpoint);
+	cout.precision(1);
+
+	length = strlen(line);
+	cout << "The average number of letters per word is ";
+	cout << (length - words + 1) / float(words) << endl;
+
+}
+
+/********************************************************
+*       Function:       numWords
+*
+*       Arguments:      char *sentence - text
+*
+*       Returns:        will return number of words in sentence 
+********************************************************
+int numWords(char *sentence)
+{
+	int words = 0, length;
+	length = strlen(sentence);
+	if (length != 0)
+		words++;
+
+	for (int i = 0; i < length; i++)
+	{
+		if (sentence[i
+	} == ' ']
+			words++;
+}
+return words;
+}
+Error !Expected a '{' in line : 51
+Error !Expected a '{' in line : 49
+Error !Expected a '{' in line : 47
+Enter 0 to exit : 0
+
+
+Press any key to continue . . .
+
+*/
