@@ -1,7 +1,6 @@
 // Name: Ali Bayati 
 // Problem: Stack
-// Chapter # 7
-// Lab # 9
+
 
 #include<iostream>
 #include<stack>
